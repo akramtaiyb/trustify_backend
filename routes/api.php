@@ -8,6 +8,7 @@ use App\Http\Controllers\PublicationController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VoteController;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -22,8 +23,10 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+    return Auth::user();
 });
+
+Route::post('/login', [AuthController::class, 'login']);
 
 Route::apiResource('users', UserController::class);
 Route::apiResource('experts', ExpertController::class);
@@ -31,3 +34,5 @@ Route::apiResource('publications', PublicationController::class);
 Route::apiResource('comments', CommentController::class);
 Route::apiResource('votes', VoteController::class);
 Route::apiResource('notifications', NotificationController::class);
+
+Route::post('/logout', [AuthController::class, 'logout']);

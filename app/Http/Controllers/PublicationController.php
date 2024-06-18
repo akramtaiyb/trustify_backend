@@ -4,20 +4,32 @@ namespace App\Http\Controllers;
 
 use App\Models\Publication;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class PublicationController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:sanctum');
+    }
+
     public function index()
     {
-//        return Publication::with('user')->get();
-        return Publication::with(['user', 'comments.user'])->withCount([
-            'votes as upvotes_count' => function ($query) {
-                $query->where('vote', 'real');
-            },
-            'votes as downvotes_count' => function ($query) {
-                $query->where('vote', 'fake');
-            },
-        ])->withCount('comments')->orderByDesc('id')->paginate(4)->jsonSerialize();
+        $publications = Publication::with(['user', 'comments.user'])
+            ->withCount([
+                'votes as upvotes_count' => function ($query) {
+                    $query->where('vote', 'real');
+                },
+                'votes as downvotes_count' => function ($query) {
+                    $query->where('vote', 'fake');
+                },
+                'comments'
+            ])
+            // retrieve the vote id of the user auth()->user() as user_vote_id if the vote exists else return false
+            ->orderByDesc('id')
+            ->paginate(4);
+
+        return response()->json($publications);
     }
 
     public function store(Request $request)
@@ -25,11 +37,21 @@ class PublicationController extends Controller
         $request->validate([
             'title' => 'max:255',
             'content' => 'required',
-            'type' => '',
             'user_id' => 'required|exists:users,id',
         ]);
 
         $publication = Publication::create($request->all());
+
+        $publication = Publication::with(['user', 'comments.user'])
+            ->withCount([
+                'votes as upvotes_count' => function ($query) {
+                    $query->where('vote', 'real');
+                },
+                'votes as downvotes_count' => function ($query) {
+                    $query->where('vote', 'fake');
+                },
+                'comments'
+            ])->find($publication->id);
 
         return response()->json($publication, 201);
     }

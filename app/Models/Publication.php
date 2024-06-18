@@ -6,13 +6,14 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Publication extends Model
 {
     use HasFactory;
 
     protected $fillable = ["user_id", "title", "content", "created_at", "updated_at"];
+
+    protected $appends = ["has_upvoted", "has_downvoted", "has_commented", "user_vote"];
 
     public function user(): BelongsTo
     {
@@ -27,5 +28,52 @@ class Publication extends Model
     public function votes(): HasMany
     {
         return $this->hasMany(Vote::class);
+    }
+
+    // Votes
+    public function getHasUpvotedAttribute()
+    {
+        $userId = \auth()->id();
+
+        if (!$userId) {
+            return false;
+        } else {
+            return Vote::query()->where('publication_id', $this->id)
+                ->where('user_id', $userId)
+                ->where('vote', 'real')
+                ->exists();
+        }
+    }
+
+    public function getHasDownvotedAttribute()
+    {
+        $userId = \auth()->id();
+
+        if (!$userId) {
+            return false;
+        } else {
+            return Vote::query()->where('publication_id', $this->id)
+                ->where('user_id', $userId)
+                ->where('vote', 'fake')
+                ->exists();
+        }
+    }
+
+    public function getHasCommentedAttribute()
+    {
+        $userId = \auth()->id();
+
+        if (!$userId) {
+            return false;
+        } else {
+            return Comment::query()->where('publication_id', $this->id)
+                ->where('user_id', $userId)
+                ->exists();
+        }
+    }
+
+    public function getUserVoteAttribute()
+    {
+        return $this->votes()->where('user_id', auth()->id())->value('id');
     }
 }

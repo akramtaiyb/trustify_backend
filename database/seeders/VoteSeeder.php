@@ -2,6 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Models\Publication;
+use App\Models\User;
 use App\Models\Vote;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -16,16 +18,26 @@ class VoteSeeder extends Seeder
     {
         $faker = Faker::create();
 
-        $userCount = 10;
-        $publicationCount = 10;
+        $users = User::all();
+        $publications = Publication::all();
 
-        for ($i = 0; $i < 100; $i++) {
+        Vote::truncate();
+
+        foreach ($publications as $publication) {
             $number_of_votes = $faker->numberBetween(10, 100);
 
+            $votedUsers = [];
+
             for ($j = 0; $j < $number_of_votes; $j++) {
+                do {
+                    $userId = $faker->randomElement($users)->id;
+                } while (in_array($userId, $votedUsers));
+
+                $votedUsers[] = $userId;
+
                 Vote::create([
-                    'user_id' => $faker->numberBetween(1, $userCount),
-                    'publication_id' => $faker->numberBetween(1, $publicationCount),
+                    'user_id' => $userId,
+                    'publication_id' => $publication->id,
                     'vote' => $faker->randomElement(['real', 'fake']),
                 ]);
             }

@@ -15,6 +15,14 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
+
+        User::create([
+            'name' => 'Akram Taiyb',
+            'email' => 'akram@trustify.com',
+            'password' => Hash::make('password'), // Use a constant password for simplicity
+            'reputation' => 300,
+        ]);
+
         $faker = Faker::create();
 
         for ($i = 0; $i < 100; $i++) {

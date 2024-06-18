@@ -15,7 +15,7 @@ class VoteController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'type' => 'required|in:true,fake',
+            'vote' => 'required|in:real,fake',
             'user_id' => 'required|exists:users,id',
             'publication_id' => 'required|exists:publications,id',
         ]);
@@ -24,14 +24,14 @@ class VoteController extends Controller
 
         // Update the user's reputation based on the vote
         $publicationUser = $vote->publication->user;
-        if ($vote->type === 'true') {
+        if ($vote->type === 'real') {
             $publicationUser->reputation += 10;
         } else {
             $publicationUser->reputation -= 10;
         }
         $publicationUser->save();
 
-        return response()->json($vote, 201);
+        return response()->json($vote->id, 201);
     }
 
     public function show(Vote $vote)
@@ -42,7 +42,7 @@ class VoteController extends Controller
     public function update(Request $request, Vote $vote)
     {
         $request->validate([
-            'type' => 'sometimes|required|in:true,fake',
+            'vote' => 'sometimes|required|in:real,fake',
         ]);
 
         $vote->update($request->all());
