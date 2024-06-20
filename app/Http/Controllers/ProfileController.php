@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use Illuminate\Http\JsonResponse;
@@ -25,7 +24,13 @@ class ProfileController extends Controller
             return response()->json(['error' => 'Unauthenticated'], 401);
         }
 
-        $user->load(['publications', 'comments', 'votes']);
+        $user->load([
+            'publications.user',
+            'publications.comments.user',
+            'publications.votes',
+            'comments.user',
+            'votes'
+        ]);
 
         return response()->json($user);
     }
@@ -40,7 +45,14 @@ class ProfileController extends Controller
     {
         $user = User::where('username', $username)->firstOrFail();
 
-        $user->load(['publications', 'comments', 'votes']);
+        $user->load([
+            'publications.user',
+            'publications.comments.user',
+            'publications.votes',
+            'publications.mediaFiles',
+            'comments.user',
+            'votes'
+        ]);
 
         return response()->json($user);
     }
@@ -59,6 +71,11 @@ class ProfileController extends Controller
         }
 
         $publications = Publication::where('user_id', $userId)
+            ->with([
+                'user',
+                'comments.user',
+                'votes'
+            ])
             ->withCount([
                 'votes as upvotes_count' => function ($query) {
                     $query->where('vote', 'real');
@@ -70,8 +87,14 @@ class ProfileController extends Controller
             ])
             ->get();
 
-        $comments = Comment::where('user_id', $userId)->with('publication')->get();
-        $votes = Vote::where('user_id', $userId)->with('publication')->get();
+        $comments = Comment::where('user_id', $userId)
+            ->with('publication.user')
+            ->with('user') // Include user for each comment
+            ->get();
+
+        $votes = Vote::where('user_id', $userId)
+            ->with('publication.user')
+            ->get();
 
         return response()->json([
             'publications' => $publications,

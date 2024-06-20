@@ -17,6 +17,9 @@ return new class extends Migration
             $table->foreignId('publication_id')->constrained()->onDelete('cascade');
             $table->enum('vote', ['real', 'fake']);
             $table->timestamps();
+
+//             Add a unique constraint for user_id and publication_id combination
+            $table->unique(['user_id', 'publication_id']);
         });
     }
 

@@ -16,17 +16,7 @@ class PublicationController extends Controller
 
     public function index()
     {
-        $publications = Publication::with(['user', 'comments.user', 'mediaFiles'])
-            ->withCount([
-                'votes as upvotes_count' => function ($query) {
-                    $query->where('vote', 'real');
-                },
-                'votes as downvotes_count' => function ($query) {
-                    $query->where('vote', 'fake');
-                },
-                'comments'
-            ])
-            // retrieve the vote id of the user auth()->user() as user_vote_id if the vote exists else return false
+        $publications = Publication::with(['user', 'comments.user', 'votes', 'mediaFiles'])
             ->orderByDesc('id')
             ->paginate(4);
 
@@ -55,15 +45,7 @@ class PublicationController extends Controller
             }
 
             $publication = Publication::with(['user', 'comments.user', 'mediaFiles'])
-                ->withCount([
-                    'votes as upvotes_count' => function ($query) {
-                        $query->where('vote', 'real');
-                    },
-                    'votes as downvotes_count' => function ($query) {
-                        $query->where('vote', 'fake');
-                    },
-                    'comments'
-                ])->find($publication->id);
+                ->find($publication->id);
 
             DB::commit();
 
