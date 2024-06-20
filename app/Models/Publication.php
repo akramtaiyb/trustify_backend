@@ -15,6 +15,7 @@ class Publication extends Model
 
     protected $appends = ["has_upvoted", "has_downvoted", "has_commented", "user_vote"];
 
+    // Relationships
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
@@ -28,6 +29,11 @@ class Publication extends Model
     public function votes(): HasMany
     {
         return $this->hasMany(Vote::class);
+    }
+
+    public function mediaFiles(): HasMany
+    {
+        return $this->hasMany(MediaFile::class);
     }
 
     // Votes

@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\ExpertController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PublicationController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VoteController;
@@ -34,5 +35,15 @@ Route::apiResource('publications', PublicationController::class);
 Route::apiResource('comments', CommentController::class);
 Route::apiResource('votes', VoteController::class);
 Route::apiResource('notifications', NotificationController::class);
+
+// Profile endpoints
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'index']);
+    Route::get('/profile/activity', [ProfileController::class, 'userActivity']);
+    Route::put('/profile', [ProfileController::class, 'update']);
+});
+
+// Profile searching
+Route::get('/profile/{username}', [ProfileController::class, 'show']);
 
 Route::post('/logout', [AuthController::class, 'logout']);
