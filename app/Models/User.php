@@ -58,4 +58,31 @@ class User extends Authenticatable
     {
         return $this->hasMany(Vote::class);
     }
+
+    // Reputation
+    public function updateReputation()
+    {
+        $real_publication_weight = 10;
+        $comment_weight = 3;
+
+        $publications = $this->publications;
+        $realPublicationsCount = 0;
+
+        foreach ($publications as $publication) {
+            if ($publication->classification == "real") {
+                $realPublicationsCount++;
+            }
+        }
+
+        $commentsCount = $this->comments()->count();
+
+        $this->reputation = ($realPublicationsCount * $real_publication_weight) + ($commentsCount * $comment_weight);
+
+        $this->is_expert = $this->reputation >= 1000;
+
+        $this->save();
+
+        return 1;
+    }
+
 }

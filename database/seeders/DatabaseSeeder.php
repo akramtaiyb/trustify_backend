@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Publication;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -19,5 +20,9 @@ class DatabaseSeeder extends Seeder
             VoteSeeder::class,
             CommentSeeder::class,
         ]);
+
+        foreach (Publication::all() as $publication) {
+            $publication->updateClassificationScore();
+        }
     }
 }

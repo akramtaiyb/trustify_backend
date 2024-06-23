@@ -19,6 +19,7 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->integer('reputation')->default(0);
+            $table->boolean('is_expert')->default(false);
             $table->rememberToken();
             $table->timestamps();
         });

@@ -17,11 +17,12 @@ class UserSeeder extends Seeder
     {
 
         User::create([
-            'name' => 'Akram Taiyb',
-            'username' => 'akramtaiyb',
-            'email' => 'akram@trustify.com',
-            'password' => Hash::make('password'), // Use a constant password for simplicity
-            'reputation' => 300,
+            'name' => 'Craig Silverman',
+            'username' => 'craig_silverman',
+            'email' => 'craigsilverman@trustify.com',
+            'password' => Hash::make('letsfightfakenews2024'),
+            'reputation' => 1000,
+            'is_expert' => true,
         ]);
 
         $faker = Faker::create();
@@ -29,12 +30,14 @@ class UserSeeder extends Seeder
         for ($i = 0; $i < 100; $i++) {
             $firstname = $faker->firstName;
             $lastname = $faker->lastName;
+            $reputation = $faker->numberBetween(0, 1500);
             User::create([
-                'name' => $faker->name . ' ' . $lastname,
+                'name' => $firstname . ' ' . $lastname,
                 'username' => $firstname . $lastname,
                 'email' => $firstname . $lastname . '@trustify.com',
-                'password' => Hash::make('password'), // Use a constant password for simplicity
-                'reputation' => $faker->numberBetween(0, 500),
+                'password' => Hash::make('password'),
+                'reputation' => $reputation,
+                'is_expert' => $reputation >= 1000,
             ]);
         }
     }

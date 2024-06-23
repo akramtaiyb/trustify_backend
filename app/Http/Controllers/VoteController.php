@@ -22,14 +22,11 @@ class VoteController extends Controller
 
         $vote = Vote::create($request->all());
 
-        // Update the user's reputation based on the vote
-        $publicationUser = $vote->publication->user;
-        if ($vote->type === 'real') {
-            $publicationUser->reputation += 10;
-        } else {
-            $publicationUser->reputation -= 10;
-        }
-        $publicationUser->save();
+        $publication = $vote->publication;
+        $publication->updateClassificationScore();
+
+        $publicationUser = $publication->user;
+        $publicationUser->updateReputation();
 
         return response()->json($vote->id, 201);
     }
@@ -47,12 +44,24 @@ class VoteController extends Controller
 
         $vote->update($request->all());
 
+        $publication = $vote->publication;
+        $publication->updateClassificationScore();
+
+        $publicationUser = $publication->user;
+        $publicationUser->updateReputation();
+
         return response()->json($vote, 200);
     }
 
     public function destroy(Vote $vote)
     {
         $vote->delete();
+
+        $publication = $vote->publication;
+        $publication->updateClassificationScore();
+
+        $publicationUser = $publication->user;
+        $publicationUser->updateReputation();
 
         return response()->noContent();
     }
