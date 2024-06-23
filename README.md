@@ -119,3 +119,14 @@ Utilisez les credentials suivants pour vous connecter et tester l'application :
 
 - **Email**: craigsilverman@trustify.com
 - **Mot de passe**: letsfightfakenews2024
+
+## Remerciements
+
+Ce projet a été développé par une équipe d'étudiants dévoués :
+
+- AMTOUG Abdessamad
+- OUHAJRA Abderahim
+- LAMRIKHIR Abdessamad
+- TAIYB Akram
+
+Nous tenons à exprimer notre gratitude particulière à notre professeur, Mr. **BOUSALEM Zakaria**, pour son soutien et ses conseils inestimables tout au long de ce projet. Merci de nous avoir inspirés et guidés.
