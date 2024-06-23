@@ -5,7 +5,7 @@ Trustify est une plateforme de vérification des faits qui permet aux utilisateu
 ## Fonctionnalités
 
 - Publication d'articles par les utilisateurs
-- Vote sur les articles pour les classer comme "réel" ou "faux"
+- Vote sur les articles pour les classer comme "real" ou "fake"
 - Commentaires sur les articles
 - Système de réputation des utilisateurs basé sur leurs interactions
 - Classement des utilisateurs comme experts lorsqu'ils atteignent un certain score de réputation
@@ -13,13 +13,14 @@ Trustify est une plateforme de vérification des faits qui permet aux utilisateu
 ## Captures d'écran
 
 ### Page d'accueil
-![Page d'accueil](./screenshots/home.png)
+![Page d'accueil](/screenshots/home.png)
 
 ### Page de journal
-![Page de journal](./screenshots/journal.png)
+![Page de journal](/screenshots/journal_1.png)
+![Page de journal](/screenshots/journal_2.png)
 
 ### Page de profil
-![Page de profil](./screenshots/profile.png)
+![Page de profil](/screenshots/profile.png)
 
 ## Cas d'utilisation
 
@@ -30,7 +31,7 @@ Trustify est une plateforme de vérification des faits qui permet aux utilisateu
     - Une fois connectés, les utilisateurs peuvent publier des articles en fournissant un titre et un contenu.
 
 3. **Vote sur les articles**
-    - Les utilisateurs peuvent voter pour classer un article comme "réel" ou "faux". Les experts ont un poids plus important dans leurs votes.
+    - Les utilisateurs peuvent voter pour classer un article comme "real" ou "fake". Les experts ont un poids plus important dans leurs votes.
 
 4. **Commentaires sur les articles**
     - Les utilisateurs peuvent commenter les articles pour discuter de leur contenu et fournir des preuves supplémentaires.
@@ -116,6 +117,5 @@ Trustify est une plateforme de vérification des faits qui permet aux utilisateu
 
 Utilisez les credentials suivants pour vous connecter et tester l'application :
 
-### Utilisateur Régulier
-- **Email**: craigsilverman@example.com
+- **Email**: craigsilverman@trustify.com
 - **Mot de passe**: letsfightfakenews2024
