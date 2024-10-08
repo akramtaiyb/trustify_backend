@@ -16,8 +16,15 @@ class PublicationController extends Controller
 
     public function index()
     {
-        $publications = Publication::with(['user', 'comments.user', 'votes', 'mediaFiles'])
-            ->orderByDesc('id')
+        $publications = Publication::with([
+            'user',
+            'comments' => function ($query) {
+                $query->orderBy('created_at', 'desc');
+            },
+            'comments.user',
+            'votes',
+            'mediaFiles'
+        ])->orderByDesc('created_at')
             ->paginate(4);
 
         return response()->json($publications);

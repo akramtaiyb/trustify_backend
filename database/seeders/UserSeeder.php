@@ -17,11 +17,11 @@ class UserSeeder extends Seeder
     {
 
         User::create([
-            'name' => 'Craig Silverman',
-            'username' => 'craig_silverman',
-            'email' => 'craigsilverman@trustify.com',
-            'password' => Hash::make('letsfightfakenews2024'),
-            'reputation' => 1000,
+            'name' => 'Test Account',
+            'username' => 'test_account',
+            'email' => 'test_account@trustify.com',
+            'password' => Hash::make('password'),
+            'reputation' => 2000,
             'is_expert' => true,
         ]);
 

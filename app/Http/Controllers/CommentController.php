@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Comment;
+use App\Models\Notification;
 use Illuminate\Http\Request;
 
 class CommentController extends Controller
@@ -21,6 +22,13 @@ class CommentController extends Controller
         ]);
 
         $comment = Comment::create($request->all());
+
+        Notification::create([
+            'user_id' => $comment->user_id,
+            'publication_id' => $comment->publication_id,
+            'comment_id' => $comment->id,
+            'type' => 3, // Type: comment
+        ]);
 
         return response()->json($comment, 201);
     }

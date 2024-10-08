@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Vote;
+use App\Models\Notification;
 use Illuminate\Http\Request;
 
 class VoteController extends Controller
@@ -28,6 +29,15 @@ class VoteController extends Controller
         $publicationUser = $publication->user;
         $publicationUser->updateReputation();
 
+
+        // Create a suitable notification
+        Notification::create([
+            'user_id' => $vote->user_id,
+            'publication_id' => $publication->id,
+            'vote_id' => $vote->id,
+            'type' => $vote->vote === 'real' ? 1 : 2, // Type: vote
+        ]);
+
         return response()->json($vote->id, 201);
     }
 
@@ -42,16 +52,29 @@ class VoteController extends Controller
             'vote' => 'sometimes|required|in:real,fake',
         ]);
 
+        // Update vote
         $vote->update($request->all());
 
+        // Update classification score and user reputation
         $publication = $vote->publication;
         $publication->updateClassificationScore();
 
         $publicationUser = $publication->user;
         $publicationUser->updateReputation();
 
+        // Update the existing notification linked to this vote
+        $notification = Notification::where('vote_id', $vote->id)->first();
+
+        if ($notification) {
+
+            // 1 = upvote, 2 = downvote
+            $notification->type = $vote->vote === 'real' ? 1 : 2;
+            $notification->save();
+        }
+
         return response()->json($vote, 200);
     }
+
 
     public function destroy(Vote $vote)
     {

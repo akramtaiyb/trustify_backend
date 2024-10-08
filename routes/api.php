@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CommentController;
-use App\Http\Controllers\ExpertController;
+use App\Http\Controllers\TrendingExpertsController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PublicationController;
@@ -27,10 +27,14 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return Auth::user();
 });
 
+// Login
 Route::post('/login', [AuthController::class, 'login']);
 
+// Register
+Route::post('/register', [AuthController::class, 'register']);
+
+// Endpoints
 Route::apiResource('users', UserController::class);
-Route::apiResource('experts', ExpertController::class);
 Route::apiResource('publications', PublicationController::class);
 Route::apiResource('comments', CommentController::class);
 Route::apiResource('votes', VoteController::class);
@@ -46,4 +50,11 @@ Route::middleware('auth:sanctum')->group(function () {
 // Profile searching
 Route::get('/profile/{username}', [ProfileController::class, 'show']);
 
+// Check username availability
+Route::get('/users/check-username/{username}', [UserController::class, 'checkUsernameAvailability']);
+
+// Trending Experts
+Route::get('/trending-experts', [TrendingExpertsController::class, 'index']);
+
+// Logout
 Route::post('/logout', [AuthController::class, 'logout']);

@@ -15,14 +15,9 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             UserSeeder::class,
-            ExpertSeeder::class,
             PublicationSeeder::class,
             VoteSeeder::class,
             CommentSeeder::class,
         ]);
-
-        foreach (Publication::all() as $publication) {
-            $publication->updateClassificationScore();
-        }
     }
 }

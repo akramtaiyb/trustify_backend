@@ -5,7 +5,7 @@ namespace Database\Seeders;
 use App\Models\Publication;
 use App\Models\User;
 use App\Models\Vote;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Notification; // Include Notification model
 use Illuminate\Database\Seeder;
 use Faker\Factory as Faker;
 
@@ -20,8 +20,6 @@ class VoteSeeder extends Seeder
 
         $users = User::all();
         $publications = Publication::all();
-
-        Vote::truncate();
 
         foreach ($publications as $publication) {
             $number_of_votes = $faker->numberBetween(10, 100);
@@ -41,6 +39,9 @@ class VoteSeeder extends Seeder
                     'vote' => $faker->randomElement(['real', 'fake']),
                 ]);
             }
+
+            // update classification score after adding votes
+            $publication->updateClassificationScore();
         }
     }
 }

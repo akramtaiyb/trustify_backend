@@ -7,12 +7,22 @@ use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
 class Kernel extends ConsoleKernel
 {
+
+    protected $commands = [
+        \App\Console\Commands\RecalculatePublicationScores::class,
+    ];
+
+
     /**
      * Define the application's command schedule.
      */
     protected function schedule(Schedule $schedule): void
     {
-        // $schedule->command('inspire')->hourly();
+        // Schedule the recalculation of publication scores to run daily at midnight
+        $schedule->command('publications:recalculate-scores')->dailyAt('00:00');
+
+        // Other scheduled tasks can go here
+        // $schedule->command('another:command')->weekly();
     }
 
     /**
@@ -20,7 +30,7 @@ class Kernel extends ConsoleKernel
      */
     protected function commands(): void
     {
-        $this->load(__DIR__.'/Commands');
+        $this->load(__DIR__ . '/Commands');
 
         require base_path('routes/console.php');
     }

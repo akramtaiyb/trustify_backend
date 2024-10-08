@@ -16,8 +16,10 @@ class UserController extends Controller
     {
         $request->validate([
             'name' => 'required',
+            'username' => 'required|unique:users',
+            'birthdate' => 'date',
             'email' => 'required|email|unique:users',
-            'password' => 'required|min:6',
+            'password' => 'required|min:8',
         ]);
 
         $user = User::create([
@@ -27,6 +29,12 @@ class UserController extends Controller
         ]);
 
         return response()->json($user, 201);
+    }
+
+    public function checkUsernameAvailability($username) {
+        // A function to check if a username is available or not.
+        $isAvailable = !User::where('username', $username)->exists();
+        return response()->json($isAvailable);
     }
 
     public function show(User $user)
