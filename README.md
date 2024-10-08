@@ -100,6 +100,11 @@ In your `.env` file, add the following:
     php artisan serve
     ```
 
+7. Reclassify publications:
+   ```bash
+   php artisan publications:recalculate-scores
+   ```
+
 ### Starting the Front-End
 
 1. Clone the repository:
