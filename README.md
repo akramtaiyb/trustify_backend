@@ -139,5 +139,5 @@ In your `.env` file, add the following:
 
 Use the following credentials to log in and test the application:
 
-- **Email**: fakenewsfighter@trustify.com
-- **Password**: letsfightfakenews2024
+- **Email**: test_account@trustify.com
+- **Password**: password
