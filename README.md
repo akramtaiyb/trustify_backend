@@ -1,132 +1,138 @@
 # Trustify
 
-Trustify est une plateforme de vérification des faits qui permet aux utilisateurs de publier des informations, de voter sur leur véracité et de commenter. Le but est de réduire la propagation des fausses informations en utilisant un système de vote communautaire et un système de réputation.
+Trustify is a fact-checking platform that allows users to publish information, vote on its accuracy, and comment. The goal is to reduce the spread of misinformation using a community voting system and a reputation-based mechanism.
 
-## Fonctionnalités
+## Features
 
-- Publication d'articles par les utilisateurs
-- Vote sur les articles pour les classer comme "real" ou "fake"
-- Commentaires sur les articles
-- Système de réputation des utilisateurs basé sur leurs interactions
-- Classement des utilisateurs comme experts lorsqu'ils atteignent un certain score de réputation
+- Users can publish articles
+- Vote on articles to classify them as "real" or "fake"
+- Comment on articles
+- AI-powered sentiment analysis on comments to help classify publications
+- User reputation system based on their interactions
+- Users can be ranked as experts once they reach a certain reputation score
+- Expert votes have more weight in determining article classifications
 
-## Captures d'écran
+## Screenshots
 
-### Page d'accueil
-![Page d'accueil](/screenshots/home.png)
+### Homepage
+![Homepage](/screenshots/home.png)
 
-### Page de journal
-![Page de journal](/screenshots/journal_1.png)
-![Page de journal](/screenshots/journal_2.png)
+### Journal Page
+![Journal Page](/screenshots/journal_1.png)
+![Journal Page](/screenshots/journal_2.png)
 
-### Page de profil
-![Page de profil](/screenshots/profile.png)
+### Profile Page
+![Profile Page](/screenshots/profile.png)
 
-## Cas d'utilisation
+## Use Cases
 
-1. **Inscription et Connexion**
-    - Les utilisateurs peuvent s'inscrire et se connecter pour accéder à toutes les fonctionnalités de la plateforme.
+1. **Sign Up and Login**
+   - Users can sign up and log in to access all platform features.
 
-2. **Publication d'articles**
-    - Une fois connectés, les utilisateurs peuvent publier des articles en fournissant un titre et un contenu.
+2. **Publish Articles**
+   - Once logged in, users can publish articles by providing a title and content.
 
-3. **Vote sur les articles**
-    - Les utilisateurs peuvent voter pour classer un article comme "real" ou "fake". Les experts ont un poids plus important dans leurs votes.
+3. **Vote on Articles**
+   - Users can vote to classify an article as "real" or "fake." Expert users have more weight in their votes.
 
-4. **Commentaires sur les articles**
-    - Les utilisateurs peuvent commenter les articles pour discuter de leur contenu et fournir des preuves supplémentaires.
+4. **Comment on Articles**
+   - Users can comment on articles to discuss the content and provide additional evidence.
 
-5. **Système de réputation**
-    - Les utilisateurs gagnent des points de réputation en fonction de leurs interactions sur la plateforme. Les utilisateurs atteignant 1000 points deviennent des experts.
+5. **Reputation System**
+   - Users gain reputation points based on their interactions on the platform. Once a user reaches 1000 points, they become an expert.
 
-## Instructions pour démarrer le projet
+## Notes on Gemini API Integration
 
-### Prérequis
+1. **Gemini API Key for Seeders**
+   - A Gemini API key is required to populate the database with realistic seed data. Since the platform is still in its early stages, we lack enough real user-generated content to train our models or provide a meaningful test experience. The API helps generate data for articles, comments, and user interactions, mimicking a realistic dataset for development and testing purposes.
+
+2. **Gemini API for NLP**
+   - We are also using the Gemini API to enhance the natural language processing (NLP) capabilities, particularly for comment analysis. The lack of large-scale real data requires us to rely on API-generated content to simulate real-world scenarios and improve sentiment analysis. This approach helps improve the accuracy of our AI-driven comment sentiment classification.
+
+### Adding the Gemini API Key
+
+In your `.env` file, add the following:
+    ```bash
+    GEMINI_API_KEY=your_api_key_here
+    ```
+
+## Project Setup Instructions
+
+### Prerequisites
 
 - Node.js (v18.19.1)
-- npm (v10.2.4) ou yarn
+- npm (v10.2.4) or yarn
 - PHP v8.1
 - Composer v2.4.1
 - MySQL v8.0
 
-### Démarrage du back-end
+### Starting the Back-End
 
-1. Clonez le dépôt :
+1. Clone the repository:
     ```bash
     git clone https://github.com/akramtaiyb/trustify_backend.git
     cd trustify_backend
     ```
 
-2. Configurez l'environnement :
+2. Set up the environment:
     ```bash
     cp .env.example .env
     ```
-   Modifiez le fichier `.env` avec les informations de votre base de données.
+   Update the `.env` file with your database details and the Gemini API key.
 
-3. Installez les dépendances PHP :
+3. Install PHP dependencies:
     ```bash
     composer install
     ```
 
-4. Générez la clé de l'application :
+4. Generate the application key:
     ```bash
     php artisan key:generate
     ```
 
-5. Exécutez les migrations et les seeders :
+5. Run the migrations and seeders:
     ```bash
     php artisan migrate --seed
     ```
 
-6. Démarrez le serveur de développement :
+6. Start the development server:
     ```bash
     php artisan serve
     ```
 
-### Démarrage du front-end
+### Starting the Front-End
 
-1. Clonez le dépôt :
+1. Clone the repository:
     ```bash
     git clone https://github.com/akramtaiyb/trustify_frontend.git
     ```
-   
-2. Accédez au dossier front-end :
+
+2. Navigate to the front-end folder:
     ```bash
     cd trustify_frontend
     ```
 
-3. Installez les dépendances :
+3. Install dependencies:
     ```bash
     npm install
     ```
-   ou
+   or
     ```bash
     yarn install
     ```
 
-4. Démarrez le serveur de développement :
+4. Start the development server:
     ```bash
     npm run dev
     ```
-   ou
+   or
     ```bash
     yarn run dev
     ```
 
-## Credentials de Connexion pour Tester
+## Login Credentials for Testing
 
-Utilisez les credentials suivants pour vous connecter et tester l'application :
+Use the following credentials to log in and test the application:
 
-- **Email**: craigsilverman@trustify.com
-- **Mot de passe**: letsfightfakenews2024
-
-## Remerciements
-
-Ce projet a été développé par une équipe d'étudiants dévoués :
-
-- AMTOUG Abdessamad
-- OUHAJRA Abderahim
-- LAMRIKHI Abdessamad
-- TAIYB Akram
-
-Nous tenons à exprimer notre gratitude particulière à notre professeur, Mr. **BOUSALEM Zakaria**, pour son soutien et ses conseils inestimables tout au long de ce projet. Merci de nous avoir inspirés et guidés.
+- **Email**: fakenewsfighter@trustify.com
+- **Password**: letsfightfakenews2024
